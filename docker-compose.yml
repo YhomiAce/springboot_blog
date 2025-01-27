@@ -1,0 +1,27 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: database
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: blog_db
+    volumes:
+      - blog_data:/var/lib/postgresql/data
+    networks:
+      - app-net
+
+  adminer:
+    image: adminer:latest
+    restart: always
+    ports:
+      - "8888:8080"
+    networks:
+      - app-net
+
+volumes:
+  blog_data:
+networks:
+  app-net:
