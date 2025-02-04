@@ -28,6 +28,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = extractToken(request);
             if (token != null) {
                 UserDetails userDetails = authenticationService.validateToken(token);
+
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
@@ -36,6 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 if (userDetails instanceof BlogUserDetails) {
                     request.setAttribute("userId", ((BlogUserDetails) userDetails).getId());
+                    log.info(((BlogUserDetails) userDetails).getId().toString());
                 }
             }
         } catch (Exception e) {
